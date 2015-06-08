@@ -1,7 +1,5 @@
 #include "autoPlayerApp.h"
 
-
-
 //--------------------------------------------------------------
 void autoPlayerApp::setup(){
     
@@ -87,46 +85,6 @@ void autoPlayerApp::mouseMoved(int x, int y ){
 }
 
 //--------------------------------------------------------------
-void autoPlayerApp::mouseDragged(int x, int y, int button){
-
-}
-
-//--------------------------------------------------------------
-void autoPlayerApp::mousePressed(int x, int y, int button){
-
-}
-
-//--------------------------------------------------------------
-void autoPlayerApp::mouseReleased(int x, int y, int button){
-
-}
-
-//--------------------------------------------------------------
-void autoPlayerApp::mouseEntered(int x, int y){
-
-}
-
-//--------------------------------------------------------------
-void autoPlayerApp::mouseExited(int x, int y){
-
-}
-
-//--------------------------------------------------------------
-void autoPlayerApp::windowResized(int w, int h){
-
-}
-
-//--------------------------------------------------------------
-void autoPlayerApp::gotMessage(ofMessage msg){
-
-}
-
-//--------------------------------------------------------------
-void autoPlayerApp::dragEvent(ofDragInfo dragInfo){ 
-
-}
-
-//--------------------------------------------------------------
 void autoPlayerApp::countVideos(){
     
     data->videosPlaying = 0;
@@ -172,7 +130,7 @@ void autoPlayerApp::loadConfig(){
         data->backgroundColor.b = data->config.getValue("GLOBAL:BKG_COLOR:B", 0);
         tempString = ofToLower(data->config.getValue("GLOBAL:PLAYING:TYPE", "once"));
         if (tempString == "loop") data->playType = LOOP; else if (tempString == "endless") data->playType = ENDLESS; else data->playType = ONCE;
-        float tempDuration = data->config.getValue("GLOBAL:PLAYING:DURATION", 60.0); data->playDuration = (int)tempDuration * FRAME_RATE;
+        float tempDuration = data->config.getValue("GLOBAL:PLAYING:DURATION", 0.0); data->playDuration = (int)(tempDuration * FRAME_RATE);
         tempString = ofToLower(data->config.getValue("GLOBAL:PLAYING:TRANSITION", "false"));
         if (tempString == "true") {data->bPlayTransition = true;} else {data->bPlayTransition = false; data->globalAlpha = 1;}
         data->videosPlayingMax = data->config.getValue("GLOBAL:VIDEOS_MAX", VIDEOS_PLAYING_MAX_DEFAULT);
@@ -182,7 +140,7 @@ void autoPlayerApp::loadConfig(){
         tempString = ofToLower(data->config.getValue("GLOBAL:INPUT_TYPE", "off"));
         if (tempString == "mouse") data->inputType = MOUSE; else if (tempString == "cameras") data->inputType = CAMERAS; else if (tempString == "off") data->inputType = OFF;
         
-                    //cout << numTimedEvents << endl;
+        //cout << numTimedEvents << endl;
         //TIMED EVENTS
         data->config.pushTag("TIMED_EVENTS", 0);
             int numTimedEvents = data->config.getNumTags("EVENT");
@@ -194,35 +152,38 @@ void autoPlayerApp::loadConfig(){
             }
         data->config.popTag();
     }
-
 }
 
 void autoPlayerApp::loadEvent(autoPlayerMedia *newEvent, int i){
     
     string tempString;
-    newEvent->startTime = data->config.getValue("EVENT:START", 0.0, i);
-    newEvent->endTime = data->config.getValue("EVENT:END", 0.0, i);
+    newEvent->startTime = data->config.getValue("EVENT:START", 0.0, i); newEvent->startFrame = (int)(newEvent->startTime * FRAME_RATE);
+    newEvent->endTime = data->config.getValue("EVENT:END", 0.0, i); newEvent->endFrame = (int)(newEvent->endTime * FRAME_RATE);
+    
     tempString = ofToLower(data->config.getValue("EVENT:TYPE", "", i));
-    if (tempString == "image") newEvent->mediaType = AP_IMAGE;
-    if (tempString == "video") newEvent->mediaType = AP_VIDEO;
-    if (tempString == "sound") newEvent->mediaType = AP_SOUND;
-    if (tempString == "randomimage") newEvent->mediaType = AP_RANDOM_IMAGE;
-    if (tempString == "randomvideo") newEvent->mediaType = AP_RANDOM_VIDEO;
-    if (tempString == "randomsound") newEvent->mediaType = AP_RANDOM_SOUND;
-    if (tempString == "imagesequence") newEvent->mediaType = AP_IMAGE_SEQUENCE;
-    if (tempString == "videosequence") newEvent->mediaType = AP_VIDEO_SEQUENCE;
-    if (tempString == "soundsequence") newEvent->mediaType = AP_SOUND_SEQUENCE;
+        if (tempString == "image") newEvent->mediaType = AP_IMAGE;
+        if (tempString == "video") newEvent->mediaType = AP_VIDEO;
+        if (tempString == "sound") newEvent->mediaType = AP_SOUND;
+        if (tempString == "randomimage") newEvent->mediaType = AP_RANDOM_IMAGE;
+        if (tempString == "randomvideo") newEvent->mediaType = AP_RANDOM_VIDEO;
+        if (tempString == "randomsound") newEvent->mediaType = AP_RANDOM_SOUND;
+        if (tempString == "imagesequence") newEvent->mediaType = AP_IMAGE_SEQUENCE;
+        if (tempString == "videosequence") newEvent->mediaType = AP_VIDEO_SEQUENCE;
+        if (tempString == "soundsequence") newEvent->mediaType = AP_SOUND_SEQUENCE;
     newEvent->mediaPath = data->config.getValue("EVENT:PATH", "", i);
     tempString = ofToLower(data->config.getValue("EVENT:LOC", "", i));
-    if (tempString == "full") newEvent->location = FULL;
-    if (tempString == "lhalf") newEvent->location = L_HALF;
-    if (tempString == "rhalf") newEvent->location = R_HALF;
-    if (tempString == "tile") newEvent->location = TILE;
-    if (tempString == "randomtile") newEvent->location = RANDOM_TILE;
-    if (tempString == "random") newEvent->location = RANDOM_ALL;
+        if (tempString == "full") newEvent->location = FULL;
+        if (tempString == "lhalf") newEvent->location = L_HALF;
+        if (tempString == "rhalf") newEvent->location = R_HALF;
+        if (tempString == "tile") newEvent->location = TILE;
+        if (tempString == "randomtile") newEvent->location = RANDOM_TILE;
+        if (tempString == "random") newEvent->location = RANDOM_ALL;
+    
     newEvent->tile_h = data->config.getValue("EVENT:TILE_H", 1, i);
     newEvent->tile_v = data->config.getValue("EVENT:TILE_V", 1, i);
-    newEvent->alphaOrig = 1;//data->config.getValue("EVENT:A", 1, i);
+    
+    tempString = ofToLower(data->config.getValue("EVENT:A", "1.0", i));
+    if (tempString == "random") newEvent->alphaOrig = ofRandomuf(); else newEvent->alphaOrig = ofToFloat(tempString);
     tempString = ofToLower(data->config.getValue("EVENT:A_TRANS", "FALSE", i));
     if (tempString == "true") newEvent->bAlphaTransition = true; else newEvent->bAlphaTransition = false;
     newEvent->alphaTransitionTime = data->config.getValue("EVENT:A_TIME", 0.0, i);
@@ -232,10 +193,28 @@ void autoPlayerApp::loadEvent(autoPlayerMedia *newEvent, int i){
     newEvent->volumeTransitionTime = data->config.getValue("EVENT:V_TIME", 0.0, i);
     tempString = ofToLower(data->config.getValue("EVENT:LOOP", "TRUE", i));
     if (tempString == "true") newEvent->mediaLoop = true; else newEvent->mediaLoop = false;
-    newEvent->speed = data->config.getValue("EVENT:SPEED", 1.0, i);
-    newEvent->layer = data->config.getValue("EVENT:LAYER", 1, i);
+    tempString = ofToLower(data->config.getValue("EVENT:SPEED", "1.0", i));
+    if (tempString == "random") newEvent->speed = ofRandomuf(); else newEvent->speed = ofToFloat(tempString);
+    tempString = ofToLower(data->config.getValue("EVENT:LAYER", "1", i));
+    if (tempString == "random") newEvent->layer = (rand()%9) + 1; else newEvent->layer = ofToInt(tempString);
 };
 
+//--------------------------------------------------------------
+void autoPlayerApp::mouseDragged(int x, int y, int button){}
+//--------------------------------------------------------------
+void autoPlayerApp::mousePressed(int x, int y, int button){}
+//--------------------------------------------------------------
+void autoPlayerApp::mouseReleased(int x, int y, int button){}
+//--------------------------------------------------------------
+void autoPlayerApp::mouseEntered(int x, int y){}
+//--------------------------------------------------------------
+void autoPlayerApp::mouseExited(int x, int y){}
+//--------------------------------------------------------------
+void autoPlayerApp::windowResized(int w, int h){}
+//--------------------------------------------------------------
+void autoPlayerApp::gotMessage(ofMessage msg){}
+//--------------------------------------------------------------
+void autoPlayerApp::dragEvent(ofDragInfo dragInfo){}
 
 
 /*

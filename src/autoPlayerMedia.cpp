@@ -124,6 +124,7 @@ void autoPlayerMedia::update(){
 				if (video.load(mediaPath)) {
 					video.setSpeed(speed);
 					video.play();
+                    if (mediaLoop) video.setLoopState(OF_LOOP_NORMAL); else video.setLoopState(OF_LOOP_NONE);
 					bLoad = false; bLoaded = true; bPlayed = true;
 					if (bRandomTile) {tile_h = rand()%data->tiles_h + 1; tile_v = rand()%data->tiles_v + 1;}
 					if (bRandomAll){  int tempAll = rand()%4; 
