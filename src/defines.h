@@ -5,7 +5,6 @@
 
 #define		WINDOW_WIDTH_DEFAULT		1280
 #define		WINDOW_HEIGHT_DEFAULT		720
-#define		FULLSCREEN_DEFAULT			FALSE
 
 #define		DEFAULT_CONFIG				"config.xml"  
 
@@ -13,8 +12,8 @@
 
 #define		PLAY_DURATION_MIN			10
 
-#define		VIDEOS_PLAYING_MAX			6
-#define		SOUNDS_PLAYING_MAX			6
+#define		VIDEOS_PLAYING_MAX_DEFAULT	6
+#define		SOUNDS_PLAYING_MAX_DEFAULT	6
 
 #define		ALPHA_TRANSITION_DEFAULT	1   //transition in/out (sec)
 #define		VOLUME_TRANSITION_DEFAULT	1   //transition in/out (sec)

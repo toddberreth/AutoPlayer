@@ -14,6 +14,7 @@ public:
 	virtual ~autoPlayerData();
 	
 	void			update();
+    void			draw();
     
     void            loadConfig();
 	
@@ -26,7 +27,6 @@ public:
 	
 	ofFloatColor	backgroundColor;
 	
-	//TiXmlDocument	config;
     ofxXmlSettings  config;
 	string			message;
 	

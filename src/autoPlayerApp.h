@@ -29,8 +29,8 @@ class autoPlayerApp : public ofBaseApp{
     
     private:
     
-        void drawData();
         void loadConfig();
+        void loadEvent(autoPlayerMedia *event, int i);
         void countVideos();
         void countSounds();
     

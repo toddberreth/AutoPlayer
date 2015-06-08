@@ -28,7 +28,7 @@ autoPlayerMedia::autoPlayerMedia(EVENT_TYPE	eventType, autoPlayerData *data): ev
 
 autoPlayerMedia::~autoPlayerMedia(){
 	
-	image.clear(); video.close(); sound.unloadSound();
+    image.clear(); video.close(); sound.unload();
 }
 
 void autoPlayerMedia::setup(){
@@ -67,10 +67,10 @@ void autoPlayerMedia::update(){
 	
 	if (eventType == TIMED_EVENT) {
 		
-		if ((data->frameNumber == startFrame)) {bPlaying = bPlayed = bLoad = true; bKilledAlpha = bKilledVolume = false;}
+		if (data->frameNumber == startFrame) {bPlaying = bPlayed = bLoad = true; bKilledAlpha = bKilledVolume = false;}
 		if ((data->frameNumber == (endFrame-((int)alphaTransitionTime*FRAME_RATE))) && (bAlphaTransition)) bKilledAlpha = true;
 		if ((data->frameNumber == (endFrame-((int)volumeTransitionTime*FRAME_RATE))) && (bVolumeTransition)) bKilledVolume = true;
-		if ((data->frameNumber == endFrame)) {bPlaying = bKilledAlpha = bKilledVolume = false; bUnload = true;}
+		if (data->frameNumber == endFrame) {bPlaying = bKilledAlpha = bKilledVolume = false; bUnload = true;}
 	}
 	
 	if (eventType == RANDOM_EVENT) {
@@ -86,10 +86,7 @@ void autoPlayerMedia::update(){
 	
 	if (eventType == TRIGGERED_EVENT) {
 		
-		if (data->inputType == CAMERAS){
-			
-		}
-		
+		if (data->inputType == CAMERAS){}
 		if (bPlaying) playTimer++;
 		if ((playTimer == (((int)playDuration*FRAME_RATE)-((int)alphaTransitionTime*FRAME_RATE))) && (bAlphaTransition)) bKilledAlpha = true;
 		if ((playTimer == (((int)playDuration*FRAME_RATE)-((int)volumeTransitionTime*FRAME_RATE))) && (bVolumeTransition)) bKilledVolume = true;
@@ -105,7 +102,7 @@ void autoPlayerMedia::update(){
 				mediaPath = mediaDirectory.getPath(sequenceIndex);
 				sequenceIndex++; if (sequenceIndex > (mediaDirectory.size()-1)) sequenceIndex = 0;
 			}
-			if (image.loadImage(mediaPath)) {
+			if (image.load(mediaPath)) {
 				bLoad = false; bLoaded = true; bPlayed = true;
 				if (bRandomTile) {tile_h = rand()%data->tiles_h + 1; tile_v = rand()%data->tiles_v + 1;}
 				if (bRandomAll){  int tempAll = rand()%4; 
@@ -115,6 +112,7 @@ void autoPlayerMedia::update(){
 			}
 			else {cout << mediaPath.c_str() << " -- image not loaded" << endl;}
 		}
+        
 		if ((mediaType == AP_VIDEO)||(mediaType == AP_RANDOM_VIDEO)||(mediaType == AP_VIDEO_SEQUENCE)){
 
 			if (mediaType == AP_RANDOM_VIDEO) mediaPath = mediaDirectory.getPath(rand()%mediaDirectory.size());
@@ -123,7 +121,7 @@ void autoPlayerMedia::update(){
 				sequenceIndex++; if (sequenceIndex > (mediaDirectory.size()-1)) sequenceIndex = 0;
 			}
 			if (data->videosPlaying < data->videosPlayingMax){
-				if (video.loadMovie(mediaPath)) {
+				if (video.load(mediaPath)) {
 					video.setSpeed(speed);
 					video.play();
 					bLoad = false; bLoaded = true; bPlayed = true;
@@ -138,8 +136,8 @@ void autoPlayerMedia::update(){
 				cout <<  "too many videos playing" << endl;
 				bLoad = false; bPlaying = false; playTimer = 0;
 			}
-
 		}
+        
 		if ((mediaType == AP_SOUND)||(mediaType == AP_RANDOM_SOUND)||(mediaType == AP_SOUND_SEQUENCE)){
 			
 			if (mediaType == AP_RANDOM_SOUND) mediaPath = mediaDirectory.getPath(rand()%mediaDirectory.size());
@@ -148,7 +146,7 @@ void autoPlayerMedia::update(){
 				sequenceIndex++; if (sequenceIndex > (mediaDirectory.size()-1)) sequenceIndex = 0;
 			}
 			if (data->soundsPlaying < data->soundsPlayingMax){
-				if (sound.loadSound(mediaPath)) {
+				if (sound.load(mediaPath)) {
 					sound.setSpeed(speed);
 					sound.play();
 					bLoad = false; bLoaded = true; bPlayed = true;
@@ -167,7 +165,7 @@ void autoPlayerMedia::update(){
 		
 		if ((mediaType == AP_IMAGE)||(mediaType == AP_RANDOM_IMAGE)||(mediaType == AP_IMAGE_SEQUENCE)){image.clear(); bUnload = false; bLoaded = false;}
 		if ((mediaType == AP_VIDEO)||(mediaType == AP_RANDOM_VIDEO)||(mediaType == AP_VIDEO_SEQUENCE)){video.stop(); video.closeMovie();bUnload = false; bLoaded = false;}
-		if ((mediaType == AP_SOUND)||(mediaType == AP_RANDOM_SOUND)||(mediaType == AP_SOUND_SEQUENCE)){sound.unloadSound(); bUnload = false; bLoaded = false;}
+		if ((mediaType == AP_SOUND)||(mediaType == AP_RANDOM_SOUND)||(mediaType == AP_SOUND_SEQUENCE)){sound.unload(); bUnload = false; bLoaded = false;}
 	}
 	
 	if ((mediaType == AP_IMAGE)||(mediaType == AP_RANDOM_IMAGE)||(mediaType == AP_IMAGE_SEQUENCE)){}

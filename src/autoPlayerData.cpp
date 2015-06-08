@@ -3,7 +3,7 @@
 autoPlayerData::autoPlayerData(){
 
 	windowWidth = origWindowWidth = WINDOW_WIDTH_DEFAULT; windowHeight = origWindowHeight = WINDOW_HEIGHT_DEFAULT;
-	bFullScreen = FULLSCREEN_DEFAULT; backgroundColor.r = backgroundColor.g = backgroundColor.b = 0;
+	bFullScreen = false; backgroundColor.r = backgroundColor.g = backgroundColor.b = 0;
     
     playType = LOOP;
 	
@@ -13,7 +13,7 @@ autoPlayerData::autoPlayerData(){
 	
 	globalAlphaStep = globalVolumeStep = (float)1/(GLOBAL_TRANSITION*FRAME_RATE);
 	
-	videosPlaying = soundsPlaying = 0; videosPlayingMax = VIDEOS_PLAYING_MAX; soundsPlayingMax = SOUNDS_PLAYING_MAX;
+	videosPlaying = soundsPlaying = 0; videosPlayingMax = VIDEOS_PLAYING_MAX_DEFAULT; soundsPlayingMax = SOUNDS_PLAYING_MAX_DEFAULT;
 	
 	tiles_h = tiles_v = 1;
 	
@@ -48,4 +48,37 @@ void autoPlayerData::update(){
 		if ((bAudioOn) && (frameNumber == (playDuration - (GLOBAL_TRANSITION*FRAME_RATE)))&& (playType != ENDLESS)) bAudioOn = false;
 		if ((!bAudioOn) && (frameNumber == 0)) bAudioOn = true;
 	}
+}
+
+void autoPlayerData::draw(){
+
+    glPushMatrix();
+    
+    glMatrixMode(GL_PROJECTION); glLoadIdentity(); glOrtho(0, windowWidth, windowHeight, 0, -500.0, 500.0);
+    glMatrixMode(GL_MODELVIEW); glLoadIdentity();
+    
+    ofSetColor(255, 0, 0, 255);
+    
+    ofPushMatrix();
+    ofTranslate(0, 0, 10);
+    ofNoFill();
+    
+    ofDrawBitmapString( "AutoPlayer", 30, 30);
+    ofDrawBitmapString( title, 30, 50);
+    ofDrawBitmapString( "message-> " + ofToString(message), windowWidth - 450, windowHeight - 20);
+    ofDrawBitmapString( "(f)ullframe/window", 30, windowHeight - 20);
+    ofDrawBitmapString( "(a)udio/soundtrack", 30, windowHeight - 40); ofDrawBitmapString(":", 180, windowHeight - 40);
+    if (bAudioOn) ofDrawBitmapString("ON", 220, windowHeight - 40); else ofDrawBitmapString("OFF", 220, windowHeight - 40);
+    ofDrawBitmapString( "(s)how data", 30, windowHeight - 60);
+    ofDrawBitmapString( "sounds playing: " + ofToString((float)soundsPlaying, 0), 30, windowHeight - 100);
+    ofDrawBitmapString( "videos playing: " + ofToString((float)videosPlaying, 0), 30, windowHeight - 120);
+    ofDrawBitmapString( "fps: " + ofToString(ofGetFrameRate(), 0), windowWidth - 100, 30);
+    ofDrawBitmapString( "frame number: " + ofToString(frameNumber, 0), windowWidth - 300, 30);
+    ofDrawBitmapString( "seconds: " + ofToString((float)frameNumber/FRAME_RATE, 2), windowWidth - 450, 30);
+    
+    ofPopMatrix();
+    
+    ofSetColor(255);
+    
+    glPopMatrix();
 }
