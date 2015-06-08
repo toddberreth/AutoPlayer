@@ -1,8 +1,28 @@
-<!-- autoPlayer default configuration file // -->
-<?xml version="1.0" standalone="no" ?>
-
-
-<Global>
-
-</Global>
+<GLOBAL>
+	<!-- AutoPlayer Demo Configuration File -->
+	<TITLE>Demo</TITLE>
+	<!-- currently set to fit in a desktop window for development -->
+	<WINDOW> 
+		<WIDTH>1920</WIDTH><HEIGHT>540</HEIGHT><FULLSCREEN>FALSE</FULLSCREEN>
+	</WINDOW>
+	<!-- tiles/screens in grid (horizontal/vertical)-->
+	<TILES>	
+		<H>6</H><V>3</V>
+	</TILES>
+	<!-- background color (rgb) values 0-255 -->
+	<BKG_COLOR>
+		<R>0</R><G>0</G><B>0</B> 
+	</BKG_COLOR>
+	<!-- once / loop / endless (doesn't loop, doesn't stop)...play transition fades in/out on once & loop, duration(in seconds)-->
+	<PLAYING>
+		<TYPE>LOOP</TYPE><DURATION>60</DURATION><TRANSITION>FALSE</TRANSITION>
+	</PLAYING>
+	<!-- maximum videos/sounds playing simultaneously -->
+	<VIDEOS_MAX>6</VIDEOS_MAX>
+	<SOUNDS_MAX>6</SOUNDS_MAX>
+	<!-- shows framerate and other data for troubleshooting -->
+	<SHOW_DATA>TRUE</SHOW_DATA>
+	<!-- for triggered events -> off, mouse or cameras-->
+	<INPUT_TYPE>OFF</INPUT_TYPE>
+</GLOBAL>
 
