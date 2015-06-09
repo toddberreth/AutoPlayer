@@ -3,6 +3,8 @@
 #define		FRAME_RATE					60		
 #define		VERTICAL_SYNC				TRUE
 
+#define		LOG_LEVEL                   OF_LOG_SILENT 
+
 #define		WINDOW_WIDTH_DEFAULT		1280
 #define		WINDOW_HEIGHT_DEFAULT		720
 

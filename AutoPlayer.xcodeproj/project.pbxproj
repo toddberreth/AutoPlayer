@@ -318,8 +318,8 @@
 			children = (
 				4A8541CD1B25E2C500040B3E /* autoPlayerApp.cpp */,
 				4A8541CE1B25E2C500040B3E /* autoPlayerApp.h */,
-				4A8541CF1B25E2C500040B3E /* autoPlayerData.cpp */,
 				4A8541D01B25E2C500040B3E /* autoPlayerData.h */,
+				4A8541CF1B25E2C500040B3E /* autoPlayerData.cpp */,
 				4A8541D11B25E2C500040B3E /* autoPlayerMedia.cpp */,
 				4A8541D21B25E2C500040B3E /* autoPlayerMedia.h */,
 				4A8541D31B25E2C500040B3E /* defines.h */,

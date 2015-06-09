@@ -7,6 +7,7 @@ void autoPlayerApp::setup(){
     
     ofSetFrameRate(FRAME_RATE);
     ofSetVerticalSync(VERTICAL_SYNC);
+    ofSetLogLevel(LOG_LEVEL);
     
     loadConfig();
     
@@ -26,9 +27,7 @@ void autoPlayerApp::exit(){
 void autoPlayerApp::update(){
 
     for (vector<autoPlayerMedia*>::iterator it = events.begin(); it != events.end(); it++) {(*it)->update();}
-    
     data->update();
-    
     ofSoundUpdate();
     
     countVideos();
@@ -47,14 +46,15 @@ void autoPlayerApp::draw(){
     ofSetColor(255);
     glEnable(GL_BLEND);
     glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-    glEnable(GL_DEPTH_TEST);
+    ofEnableBlendMode(OF_BLENDMODE_ALPHA);
+    //glEnable(GL_DEPTH_TEST);
     ofPushMatrix();
     float offset = 0;
     for (vector<autoPlayerMedia*>::iterator it = events.begin(); it != events.end(); it++) {(*it)->draw(); ofTranslate(0, 0, offset+=0.00001);}
     ofPopMatrix();
-    glDisable(GL_DEPTH_TEST);
+    //glDisable(GL_DEPTH_TEST);
     glDisable(GL_BLEND);
-    if (data->bShowData) data->draw();//drawData();
+    if (data->bShowData) data->draw();
 }
 
 //--------------------------------------------------------------
@@ -130,9 +130,9 @@ void autoPlayerApp::loadConfig(){
         data->backgroundColor.b = data->config.getValue("GLOBAL:BKG_COLOR:B", 0);
         tempString = ofToLower(data->config.getValue("GLOBAL:PLAYING:TYPE", "once"));
         if (tempString == "loop") data->playType = LOOP; else if (tempString == "endless") data->playType = ENDLESS; else data->playType = ONCE;
-        float tempDuration = data->config.getValue("GLOBAL:PLAYING:DURATION", 0.0); data->playDuration = (int)(tempDuration * FRAME_RATE);
+        data->playDurationSeconds = data->config.getValue("GLOBAL:PLAYING:DURATION", 0.0); data->playDurationFrames = (int)(data->playDurationSeconds * FRAME_RATE);
         tempString = ofToLower(data->config.getValue("GLOBAL:PLAYING:TRANSITION", "false"));
-        if (tempString == "true") {data->bPlayTransition = true;} else {data->bPlayTransition = false; data->globalAlpha = 1;}
+        if (tempString == "true") {data->bPlayTransition = true; data->globalAlpha = 0;} else {data->bPlayTransition = false; data->globalAlpha = 1;}
         data->videosPlayingMax = data->config.getValue("GLOBAL:VIDEOS_MAX", VIDEOS_PLAYING_MAX_DEFAULT);
         data->soundsPlayingMax = data->config.getValue("GLOBAL:SOUNDS_MAX", SOUNDS_PLAYING_MAX_DEFAULT);
         tempString = ofToLower(data->config.getValue("GLOBAL:SHOW_DATA", "false"));
@@ -143,22 +143,43 @@ void autoPlayerApp::loadConfig(){
         //cout << numTimedEvents << endl;
         //TIMED EVENTS
         data->config.pushTag("TIMED_EVENTS", 0);
-            int numTimedEvents = data->config.getNumTags("EVENT");
-            for(int i = 0; i < numTimedEvents; i++){
-                autoPlayerMedia * newTimedEvent = new autoPlayerMedia(TIMED_EVENT, data);
-                loadEvent(newTimedEvent, i);
-                newTimedEvent->setup();
-                events.push_back(newTimedEvent);
-            }
+        int numTimedEvents = data->config.getNumTags("EVENT");
+        for(int i = 0; i < numTimedEvents; i++){
+            autoPlayerMedia * newTimedEvent = new autoPlayerMedia(TIMED_EVENT, data);
+            loadEvent(newTimedEvent, i);
+            newTimedEvent->setup();
+            events.push_back(newTimedEvent);
+        }
         data->config.popTag();
+        
+        //RANDOM EVENTS
+        data->config.pushTag("RANDOM_EVENTS", 0);
+        int numRandomEvents = data->config.getNumTags("EVENT");
+        for(int i = 0; i < numRandomEvents; i++){
+            autoPlayerMedia * newRandomEvent = new autoPlayerMedia(RANDOM_EVENT, data);
+            loadEvent(newRandomEvent, i);
+            newRandomEvent->setup();
+            events.push_back(newRandomEvent);
+        }
+        data->config.popTag();
+        
     }
 }
 
 void autoPlayerApp::loadEvent(autoPlayerMedia *newEvent, int i){
     
     string tempString;
-    newEvent->startTime = data->config.getValue("EVENT:START", 0.0, i); newEvent->startFrame = (int)(newEvent->startTime * FRAME_RATE);
-    newEvent->endTime = data->config.getValue("EVENT:END", 0.0, i); newEvent->endFrame = (int)(newEvent->endTime * FRAME_RATE);
+    //newEvent->startTime = data->config.getValue("EVENT:START", 0.0, i);
+    tempString = ofToLower(data->config.getValue("EVENT:START", "0", i));
+    if (tempString == "start") newEvent->startTime = 0.0; else newEvent->startTime = data->config.getValue("EVENT:START", 0.0, i);
+    newEvent->startTime = ofClamp(newEvent->startTime, 0.0, data->playDurationSeconds);
+    newEvent->startFrame = (int)(newEvent->startTime * FRAME_RATE);
+    //newEvent->endTime = data->config.getValue("EVENT:END", 0.0, i);
+    tempString = ofToLower(data->config.getValue("EVENT:END", "0", i));
+    if (tempString == "end"){if (data->playType == ENDLESS) newEvent->endTime = FLT_MAX; else newEvent->endTime = data->playDurationSeconds;}
+    else newEvent->endTime = data->config.getValue("EVENT:END", 0.0, i);
+    if (data->playType != ENDLESS) newEvent->endTime = ofClamp(newEvent->endTime, newEvent->startTime, data->playDurationSeconds);
+    newEvent->endFrame = (int)(newEvent->endTime * FRAME_RATE);
     
     tempString = ofToLower(data->config.getValue("EVENT:TYPE", "", i));
         if (tempString == "image") newEvent->mediaType = AP_IMAGE;
@@ -170,6 +191,7 @@ void autoPlayerApp::loadEvent(autoPlayerMedia *newEvent, int i){
         if (tempString == "imagesequence") newEvent->mediaType = AP_IMAGE_SEQUENCE;
         if (tempString == "videosequence") newEvent->mediaType = AP_VIDEO_SEQUENCE;
         if (tempString == "soundsequence") newEvent->mediaType = AP_SOUND_SEQUENCE;
+    
     newEvent->mediaPath = data->config.getValue("EVENT:PATH", "", i);
     tempString = ofToLower(data->config.getValue("EVENT:LOC", "", i));
         if (tempString == "full") newEvent->location = FULL;
@@ -197,6 +219,10 @@ void autoPlayerApp::loadEvent(autoPlayerMedia *newEvent, int i){
     if (tempString == "random") newEvent->speed = ofRandomuf(); else newEvent->speed = ofToFloat(tempString);
     tempString = ofToLower(data->config.getValue("EVENT:LAYER", "1", i));
     if (tempString == "random") newEvent->layer = (rand()%9) + 1; else newEvent->layer = ofToInt(tempString);
+    newEvent->chance = data->config.getValue("EVENT:CHANCE", 0.0, i);
+    newEvent->playDuration = data->config.getValue("EVENT:DURATION", 0.0, i);
+    tempString = ofToLower(data->config.getValue("EVENT:REPEATABLE", "TRUE", i));
+    if (tempString == "true") newEvent->bRepeatable = true; else newEvent->bRepeatable = false;
 };
 
 //--------------------------------------------------------------

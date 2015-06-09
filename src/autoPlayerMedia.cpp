@@ -8,7 +8,7 @@ autoPlayerMedia::autoPlayerMedia(EVENT_TYPE	eventType, autoPlayerData *data): ev
 	volume = volumeTarget = volumeOrig = volumeStep = 0;
 	startTime = endTime = startFrame = endFrame = 0;
 	
-	bPlaying = bKilledAlpha = bKilledVolume = bPlayed = bLoad = bUnload = false;
+	bPlaying = bKilledAlpha = bKilledVolume = bPlayed = bLoad = bUnload = bLoaded = false;
 	
 	alphaTransitionTime = ALPHA_TRANSITION_DEFAULT;
 	volumeTransitionTime = VOLUME_TRANSITION_DEFAULT;
@@ -39,7 +39,7 @@ void autoPlayerMedia::setup(){
 	if ((mediaType == AP_RANDOM_IMAGE) ||(mediaType == AP_RANDOM_VIDEO) ||(mediaType == AP_RANDOM_SOUND) ||
 		(mediaType == AP_IMAGE_SEQUENCE) ||(mediaType == AP_VIDEO_SEQUENCE) ||(mediaType == AP_SOUND_SEQUENCE)
 		){
-		mediaDirectory.listDir(mediaPath); //mediaDirectory.sort(); 
+		mediaDirectory.listDir(mediaPath); //mediaDirectory.sort();
 	}
 	
 	if (eventType == TIMED_EVENT) {
@@ -56,6 +56,8 @@ void autoPlayerMedia::setup(){
 		if (tempAll == 0) location = FULL; if (tempAll == 1) location = L_HALF; if (tempAll == 2) location = R_HALF;
 		if (tempAll == 3) {location = TILE;tile_h = rand()%data->tiles_h + 1; tile_v = rand()%data->tiles_v + 1;}
 	}
+    
+    bLoaded = false;
 }
 
 void autoPlayerMedia::update(){
@@ -67,10 +69,10 @@ void autoPlayerMedia::update(){
 	
 	if (eventType == TIMED_EVENT) {
 		
-		if (data->frameNumber == startFrame) {bPlaying = bPlayed = bLoad = true; bKilledAlpha = bKilledVolume = false;}
+		if (data->frameNumber == startFrame) {bPlaying = bPlayed = bLoad = true; bKilledAlpha = bKilledVolume = false; }
 		if ((data->frameNumber == (endFrame-((int)alphaTransitionTime*FRAME_RATE))) && (bAlphaTransition)) bKilledAlpha = true;
 		if ((data->frameNumber == (endFrame-((int)volumeTransitionTime*FRAME_RATE))) && (bVolumeTransition)) bKilledVolume = true;
-		if (data->frameNumber == endFrame) {bPlaying = bKilledAlpha = bKilledVolume = false; bUnload = true;}
+		if (data->frameNumber == endFrame) {bPlaying = bKilledAlpha = bKilledVolume = false; bUnload = true;} //
 	}
 	
 	if (eventType == RANDOM_EVENT) {
@@ -81,7 +83,7 @@ void autoPlayerMedia::update(){
 		if (bPlaying) playTimer++;
 		if ((playTimer == (((int)playDuration*FRAME_RATE)-((int)alphaTransitionTime*FRAME_RATE))) && (bAlphaTransition)) bKilledAlpha = true;
 		if ((playTimer == (((int)playDuration*FRAME_RATE)-((int)volumeTransitionTime*FRAME_RATE))) && (bVolumeTransition)) bKilledVolume = true;
-		if (playTimer >= ((int)playDuration*FRAME_RATE)) {bPlaying = bKilledAlpha = bKilledVolume = false; bUnload = true; playTimer = 0;}
+		if (playTimer >= ((int)playDuration*FRAME_RATE)) {bPlaying = bKilledAlpha = bKilledVolume = false; bUnload = true; playTimer = 0;} //
 	}
 	
 	if (eventType == TRIGGERED_EVENT) {
@@ -90,14 +92,15 @@ void autoPlayerMedia::update(){
 		if (bPlaying) playTimer++;
 		if ((playTimer == (((int)playDuration*FRAME_RATE)-((int)alphaTransitionTime*FRAME_RATE))) && (bAlphaTransition)) bKilledAlpha = true;
 		if ((playTimer == (((int)playDuration*FRAME_RATE)-((int)volumeTransitionTime*FRAME_RATE))) && (bVolumeTransition)) bKilledVolume = true;
-		if (playTimer >= ((int)playDuration*FRAME_RATE)) {bPlaying = bKilledAlpha = bKilledVolume = false; bUnload = true; playTimer = 0;}
+		if (playTimer >= ((int)playDuration*FRAME_RATE)) {bPlaying = bKilledAlpha = bKilledVolume = false; bUnload = true; playTimer = 0;} //
 	}
 	
+    
 	if ((bLoad)&&(!bUnload)&&(!bLoaded)){
-		
+        
 		if ((mediaType == AP_IMAGE)||(mediaType == AP_RANDOM_IMAGE)||(mediaType == AP_IMAGE_SEQUENCE)) {
 			
-			if (mediaType == AP_RANDOM_IMAGE) mediaPath = mediaDirectory.getPath(rand()%mediaDirectory.size());
+            if (mediaType == AP_RANDOM_IMAGE) {mediaPath = mediaDirectory.getPath(rand()%mediaDirectory.size());}
 			if (mediaType == AP_IMAGE_SEQUENCE){
 				mediaPath = mediaDirectory.getPath(sequenceIndex);
 				sequenceIndex++; if (sequenceIndex > (mediaDirectory.size()-1)) sequenceIndex = 0;

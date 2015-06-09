@@ -34,7 +34,9 @@ public:
 	float			globalVolume, globalVolumeStep;
 	
 	PLAY_TYPE		playType;
-	int				playDuration;
+	int				playDurationFrames;
+    float			playDurationSeconds;
+    int				playLe;
 	bool			bPlayTransition;
 	
 	INPUT_TYPE		inputType;
