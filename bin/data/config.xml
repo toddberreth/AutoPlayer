@@ -33,7 +33,7 @@
 
 </TIMED_EVENTS>
 
-<!-- random events - triggered by chance, evaluated every second -->
+<!-- random events - activated by chance, evaluated every second -->
 <RANDOM_EVENTS>
 	
 	 <!-- poem -->
@@ -60,3 +60,7 @@
 	<EVENT><START>start</START><END>end</END><CHANCE>0.05</CHANCE><DURATION>30</DURATION><REPEATABLE>TRUE</REPEATABLE><TYPE>RANDOMVIDEO</TYPE><PATH>videos/3_1/</PATH><LOC>FULL</LOC><A>0.5</A><A_TRANS>TRUE</A_TRANS><A_TIME>5.0</A_TIME><LOOP>TRUE</LOOP><SPEED>0.5</SPEED><LAYER>2</LAYER></EVENT>
 			
 </RANDOM_EVENTS>
+
+<!-- triggered events -->
+<TRIGGERED_EVENTS>
+</TRIGGERED_EVENTS>
