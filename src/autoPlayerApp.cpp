@@ -1,13 +1,18 @@
 #include "autoPlayerApp.h"
 
+
+
 //--------------------------------------------------------------
 void autoPlayerApp::setup(){
+    
+    ofSetBackgroundColor(0,0,0);
     
     data = new autoPlayerData();
     
     ofSetFrameRate(FRAME_RATE);
     ofSetVerticalSync(VERTICAL_SYNC);
     ofSetLogLevel(LOG_LEVEL);
+    
     
     loadConfig();
     
@@ -46,14 +51,15 @@ void autoPlayerApp::draw(){
     ofSetColor(255);
     glEnable(GL_BLEND);
     glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-    ofEnableBlendMode(OF_BLENDMODE_ALPHA);
+    //ofEnableBlendMode(OF_BLENDMODE_ALPHA);
     //glEnable(GL_DEPTH_TEST);
     ofPushMatrix();
     float offset = 0;
-    for (vector<autoPlayerMedia*>::iterator it = events.begin(); it != events.end(); it++) {(*it)->draw(); ofTranslate(0, 0, offset+=0.00001);}
+    for (vector<autoPlayerMedia*>::iterator it = events.begin(); it != events.end(); it++) {(*it)->draw();}  //ofTranslate(0, 0, offset+=0.00001);
     ofPopMatrix();
     //glDisable(GL_DEPTH_TEST);
     glDisable(GL_BLEND);
+    //ofDisableAlphaBlending();
     if (data->bShowData) data->draw();
 }
 
@@ -163,8 +169,12 @@ void autoPlayerApp::loadConfig(){
         }
         data->config.popTag();
         
+        
+        sort(events.begin(),events.end(), autoPlayerMedia::sortGreaterLayer);
     }
 }
+
+
 
 void autoPlayerApp::loadEvent(autoPlayerMedia *newEvent, int i){
     

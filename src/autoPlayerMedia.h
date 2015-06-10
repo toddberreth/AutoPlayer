@@ -3,6 +3,7 @@
 #include "defines.h"
 #include "ofMain.h"
 #include "autoPlayerData.h"
+#include <algorithm>
 
 enum   EVENT_TYPE		{TIMED_EVENT, RANDOM_EVENT, TRIGGERED_EVENT}; 
 enum   LOCATION_TYPE	{FULL, L_HALF, R_HALF, TILE, RANDOM_TILE, RANDOM_ALL}; 
@@ -56,9 +57,22 @@ public:
 	ofVideoPlayer	video;
 	ofSoundPlayer	sound;
 	ofImage			image;
+    
+    /*
+    static bool sortGreaterLayer(const autoPlayerMedia & firstLayer, const autoPlayerMedia & secondLayer)
+    {
+        return firstLayer.layer > secondLayer.layer;
+    }
+     */
+    
+    static bool sortGreaterLayer (autoPlayerMedia *lhs, autoPlayerMedia *rhs){return (lhs->layer > rhs->layer);}
 
 private:
 
 	autoPlayerData  *data;
 	
 };
+
+
+
+

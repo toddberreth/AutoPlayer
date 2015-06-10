@@ -1,5 +1,6 @@
 #include "autoPlayerMedia.h"
 
+
 autoPlayerMedia::autoPlayerMedia(EVENT_TYPE	eventType, autoPlayerData *data): eventType(eventType), data(data){
 
 	location = FULL; bRandomTile = bRandomAll = false;
@@ -21,7 +22,7 @@ autoPlayerMedia::autoPlayerMedia(EVENT_TYPE	eventType, autoPlayerData *data): ev
 	
 	sequenceIndex = 0;
 	
-	layer = LAYER_DEFAULT;
+	layer = LAYER_DEFAULT; 
 	
 	trigger_x_min = trigger_x_max = trigger_y_min = trigger_y_max = 0;
 }
@@ -112,8 +113,9 @@ void autoPlayerMedia::update(){
 					if (tempAll == 0) location = FULL; if (tempAll == 1) location = L_HALF; if (tempAll == 2) location = R_HALF;
 					if (tempAll == 3) {location = TILE;tile_h = rand()%data->tiles_h + 1; tile_v = rand()%data->tiles_v + 1;}
 				}
+                data->message.clear(); data->message = mediaPath + " -- image loaded";
 			}
-			else {cout << mediaPath.c_str() << " -- image not loaded" << endl;}
+            else {data->message.clear(); data->message = mediaPath + " -- IMAGE NOT LOADED!";}  //cout << mediaPath.c_str() << " -- image not loaded" << endl;}
 		}
         
 		if ((mediaType == AP_VIDEO)||(mediaType == AP_RANDOM_VIDEO)||(mediaType == AP_VIDEO_SEQUENCE)){
@@ -134,10 +136,11 @@ void autoPlayerMedia::update(){
 						if (tempAll == 0) location = FULL; if (tempAll == 1) location = L_HALF; if (tempAll == 2) location = R_HALF;
 						if (tempAll == 3) {location = TILE;tile_h = rand()%data->tiles_h + 1; tile_v = rand()%data->tiles_v + 1;}
 					}
+                    data->message.clear(); data->message = mediaPath + " -- video loaded";
 				}
-				else {cout << mediaPath.c_str() << " -- video not loaded" << endl;}
+				else {data->message.clear(); data->message = mediaPath + " -- VIDEO NOT LOADED!";}
 			} else {
-				cout <<  "too many videos playing" << endl;
+				data->message.clear(); data->message = "TOO MANY VIDEOS PLAYING!";
 				bLoad = false; bPlaying = false; playTimer = 0;
 			}
 		}
@@ -156,10 +159,11 @@ void autoPlayerMedia::update(){
 					bLoad = false; bLoaded = true; bPlayed = true;
 					sound.setMultiPlay(true); sound.setLoop(mediaLoop);	
 					if (bVolumeTransition) sound.setVolume(volume); else sound.setVolume((float)volumeOrig*data->globalVolume);
+                    data->message.clear(); data->message = mediaPath + " -- sound loaded";
 				}
-				else {cout << mediaPath.c_str() << " -- sound not loaded" << endl;}
+				else {data->message.clear(); data->message = mediaPath + " -- SOUND NOT LOADED!";}
 			} else {
-				cout <<  "too many sounds playing" << endl;
+				data->message.clear(); data->message = "TOO MANY SOUNDS PLAYING!";
 				bLoad = false; bPlaying = false; playTimer = 0;
 			}
 		}
@@ -167,9 +171,18 @@ void autoPlayerMedia::update(){
 	
 	if ((bUnload)&&(!bLoad)&&(bLoaded)){
 		
-		if ((mediaType == AP_IMAGE)||(mediaType == AP_RANDOM_IMAGE)||(mediaType == AP_IMAGE_SEQUENCE)){image.clear(); bUnload = false; bLoaded = false;}
-		if ((mediaType == AP_VIDEO)||(mediaType == AP_RANDOM_VIDEO)||(mediaType == AP_VIDEO_SEQUENCE)){video.stop(); video.closeMovie();bUnload = false; bLoaded = false;}
-		if ((mediaType == AP_SOUND)||(mediaType == AP_RANDOM_SOUND)||(mediaType == AP_SOUND_SEQUENCE)){sound.unload(); bUnload = false; bLoaded = false;}
+		if ((mediaType == AP_IMAGE)||(mediaType == AP_RANDOM_IMAGE)||(mediaType == AP_IMAGE_SEQUENCE)){
+            image.clear(); bUnload = false; bLoaded = false;
+            data->message.clear(); data->message = mediaPath + " -- image unloaded";
+        }
+		if ((mediaType == AP_VIDEO)||(mediaType == AP_RANDOM_VIDEO)||(mediaType == AP_VIDEO_SEQUENCE)){
+            video.stop(); video.closeMovie();bUnload = false; bLoaded = false;
+            data->message.clear(); data->message = mediaPath + " -- video unloaded";
+        }
+		if ((mediaType == AP_SOUND)||(mediaType == AP_RANDOM_SOUND)||(mediaType == AP_SOUND_SEQUENCE)){
+            sound.unload(); bUnload = false; bLoaded = false;
+            data->message.clear(); data->message = mediaPath + " -- sound unloaded";
+        }
 	}
 	
 	if ((mediaType == AP_IMAGE)||(mediaType == AP_RANDOM_IMAGE)||(mediaType == AP_IMAGE_SEQUENCE)){}
