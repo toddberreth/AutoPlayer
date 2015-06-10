@@ -5,3 +5,6 @@ Flexibly configurable for scripted or generative projects via .xml configuration
 At its most basic, AutoPlayer can function as a slideshow viewer.
 
 AutoPlayer was written in openFrameworks 008+
+
+# Demo
+Included configuration file and media demonstrated a simple generative illustrated poem.
