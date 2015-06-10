@@ -7,4 +7,4 @@ At its most basic, AutoPlayer can function as a slideshow viewer.
 AutoPlayer was written in C++ using openFrameworks 008+
 
 # Demo
-Included configuration file and media demonstrated a simple generative illustrated poem.
+Included configuration file and media demonstrate a poem slideshow with random audio accompaniment and video/image illustration.
