@@ -169,6 +169,17 @@ void autoPlayerApp::loadConfig(){
         }
         data->config.popTag();
         
+        //TRIGGERED EVENTS
+        data->config.pushTag("TRIGGERED_EVENTS", 0);
+        int numTriggeredEvents = data->config.getNumTags("EVENT");
+        for(int i = 0; i < numTriggeredEvents; i++){
+            autoPlayerMedia * newTriggeredEvent = new autoPlayerMedia(TRIGGERED_EVENT, data);
+            loadEvent(newTriggeredEvent, i);
+            newTriggeredEvent->setup();
+            events.push_back(newTriggeredEvent);
+        }
+        data->config.popTag();
+        
         
         sort(events.begin(),events.end(), autoPlayerMedia::sortGreaterLayer);
     }
@@ -229,10 +240,15 @@ void autoPlayerApp::loadEvent(autoPlayerMedia *newEvent, int i){
     if (tempString == "random") newEvent->speed = ofRandomuf(); else newEvent->speed = ofToFloat(tempString);
     tempString = ofToLower(data->config.getValue("EVENT:LAYER", "1", i));
     if (tempString == "random") newEvent->layer = (rand()%9) + 1; else newEvent->layer = ofToInt(tempString);
-    newEvent->chance = data->config.getValue("EVENT:CHANCE", 0.0, i);
+    newEvent->chance = data->config.getValue("EVENT:CHANCE", 1.0, i);
     newEvent->playDuration = data->config.getValue("EVENT:DURATION", 0.0, i);
     tempString = ofToLower(data->config.getValue("EVENT:REPEATABLE", "TRUE", i));
     if (tempString == "true") newEvent->bRepeatable = true; else newEvent->bRepeatable = false;
+    
+    newEvent->trigger_x_min = data->config.getValue("EVENT:TRIGGER:X:MIN", 0.0, i);
+    newEvent->trigger_x_max = data->config.getValue("EVENT:TRIGGER:X:MAX", 0.0, i);
+    newEvent->trigger_y_min = data->config.getValue("EVENT:TRIGGER:Y:MIN", 0.0, i);
+    newEvent->trigger_y_max = data->config.getValue("EVENT:TRIGGER:Y:MAX", 0.0, i);
 };
 
 //--------------------------------------------------------------
