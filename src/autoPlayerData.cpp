@@ -11,8 +11,7 @@ autoPlayerData::autoPlayerData(){
 	
 	frameNumber = 0;
     
-    playDurationSeconds = (float)PLAY_DURATION_MIN;
-    playDurationFrames = (int)(PLAY_DURATION_MIN * FRAME_RATE);
+    playDurationSeconds = (float)PLAY_DURATION_MIN; playDurationFrames = (int)(PLAY_DURATION_MIN * FRAME_RATE);
 	
 	globalAlphaStep = globalVolumeStep = (float)1/(GLOBAL_TRANSITION*FRAME_RATE);
 	
@@ -23,12 +22,14 @@ autoPlayerData::autoPlayerData(){
 	inputType = OFF;
     
     message = "";
+    
+    randomAlphaMinTyp = RANDOM_ALPHA_MIN_TYP;   randomAlphaMaxTyp = RANDOM_ALPHA_MAX_TYP;
+    randomSpeedMinTyp = RANDOM_SPEED_MIN_TYP;   randomSpeedMaxTyp = RANDOM_SPEED_MAX_TYP;
+    randomVolumeMinTyp = RANDOM_VOLUME_MIN_TYP; randomVolumeMaxTyp = RANDOM_VOLUME_MAX_TYP;
+    randomDurationMinTyp = RANDOM_DURATION_MIN_TYP; randomVolumeMaxTyp = RANDOM_DURATION_MAX_TYP;
 }
 
-autoPlayerData::~autoPlayerData(){
-	
-
-}
+autoPlayerData::~autoPlayerData(){}
 
 void autoPlayerData::update(){
 	
@@ -56,7 +57,6 @@ void autoPlayerData::update(){
 void autoPlayerData::draw(){
 
     glPushMatrix();
-    
     glMatrixMode(GL_PROJECTION); glLoadIdentity(); glOrtho(0, windowWidth, windowHeight, 0, -500.0, 500.0);
     glMatrixMode(GL_MODELVIEW); glLoadIdentity();
     

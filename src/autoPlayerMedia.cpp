@@ -16,7 +16,7 @@ autoPlayerMedia::autoPlayerMedia(EVENT_TYPE	eventType, autoPlayerData *data): ev
 	
 	bAlphaTransition = bVolumeTransition = false;
 	
-	mediaLoop = false; speed = 1.0;
+	bMediaLoop = false; speed = 1.0;
 	
 	playTimer = playDuration = 0;
 	
@@ -25,6 +25,12 @@ autoPlayerMedia::autoPlayerMedia(EVENT_TYPE	eventType, autoPlayerData *data): ev
 	layer = LAYER_DEFAULT; 
 	
 	trigger_x_min = trigger_x_max = trigger_y_min = trigger_y_max = 0;
+    bRandomAlpha = bRandomSpeed = bRandomVolume = bRandomDuration = false;
+    
+    randomAlphaMin = RANDOM_ALPHA_MIN_TYP;   randomAlphaMax = RANDOM_ALPHA_MAX_TYP;
+    randomSpeedMin = RANDOM_SPEED_MIN_TYP;   randomSpeedMax = RANDOM_SPEED_MAX_TYP;
+    randomVolumeMin = RANDOM_VOLUME_MIN_TYP; randomVolumeMax = RANDOM_VOLUME_MAX_TYP;
+    randomDurationMin = RANDOM_DURATION_MIN_TYP; randomVolumeMax = RANDOM_DURATION_MAX_TYP;
 }
 
 autoPlayerMedia::~autoPlayerMedia(){
@@ -96,7 +102,6 @@ void autoPlayerMedia::update(){
 		if (playTimer >= ((int)playDuration*FRAME_RATE)) {bPlaying = bKilledAlpha = bKilledVolume = false; bUnload = true; playTimer = 0;} //
 	}
 	
-    
 	if ((bLoad)&&(!bUnload)&&(!bLoaded)){
         
 		if ((mediaType == AP_IMAGE)||(mediaType == AP_RANDOM_IMAGE)||(mediaType == AP_IMAGE_SEQUENCE)) {
@@ -114,6 +119,8 @@ void autoPlayerMedia::update(){
 					if (tempAll == 3) {location = TILE;tile_h = rand()%data->tiles_h + 1; tile_v = rand()%data->tiles_v + 1;}
 				}
                 data->message.clear(); data->message = mediaPath + " -- image loaded";
+                
+                if (bRandomAlpha) alphaOrig = ofRandom(randomAlphaMin, randomAlphaMax);
 			}
             else {data->message.clear(); data->message = mediaPath + " -- IMAGE NOT LOADED!";}  //cout << mediaPath.c_str() << " -- image not loaded" << endl;}
 		}
@@ -127,9 +134,10 @@ void autoPlayerMedia::update(){
 			}
 			if (data->videosPlaying < data->videosPlayingMax){
 				if (video.load(mediaPath)) {
+
 					video.setSpeed(speed);
 					video.play();
-                    if (mediaLoop) video.setLoopState(OF_LOOP_NORMAL); else video.setLoopState(OF_LOOP_NONE);
+                    if (bMediaLoop) video.setLoopState(OF_LOOP_NORMAL); else video.setLoopState(OF_LOOP_NONE);
 					bLoad = false; bLoaded = true; bPlayed = true;
 					if (bRandomTile) {tile_h = rand()%data->tiles_h + 1; tile_v = rand()%data->tiles_v + 1;}
 					if (bRandomAll){  int tempAll = rand()%4; 
@@ -154,10 +162,12 @@ void autoPlayerMedia::update(){
 			}
 			if (data->soundsPlaying < data->soundsPlayingMax){
 				if (sound.load(mediaPath)) {
+                    if (bRandomVolume) volumeOrig = ofRandom(randomVolumeMin, randomVolumeMax);
+                    if (bRandomSpeed) speed = ofRandom(randomSpeedMin, randomSpeedMax);
 					sound.setSpeed(speed);
 					sound.play();
 					bLoad = false; bLoaded = true; bPlayed = true;
-					sound.setMultiPlay(true); sound.setLoop(mediaLoop);	
+					sound.setMultiPlay(true); sound.setLoop(bMediaLoop);	
 					if (bVolumeTransition) sound.setVolume(volume); else sound.setVolume((float)volumeOrig*data->globalVolume);
                     data->message.clear(); data->message = mediaPath + " -- sound loaded";
 				}

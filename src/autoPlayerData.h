@@ -44,4 +44,7 @@ public:
 	int				frameNumber;
 	
 	int				videosPlaying, videosPlayingMax, soundsPlaying, soundsPlayingMax;
+    
+    float           randomAlphaMinTyp, randomAlphaMaxTyp, randomSpeedMinTyp, randomSpeedMaxTyp;
+    float           randomVolumeMinTyp, randomVolumeMaxTyp, randomDurationMinTyp, randomDurationMaxTyp;
 };

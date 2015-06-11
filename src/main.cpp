@@ -5,6 +5,8 @@
 //========================================================================
 int main( ){
 	
-    ofSetupOpenGL(WINDOW_WIDTH_DEFAULT,WINDOW_HEIGHT_DEFAULT,OF_WINDOW);			// <-------- setup the GL context
+    ofAppGLFWWindow window;
+    window.setMultiDisplayFullscreen(true);
+    ofSetupOpenGL(&window, WINDOW_WIDTH_DEFAULT,WINDOW_HEIGHT_DEFAULT,OF_WINDOW);
 	ofRunApp(new autoPlayerApp());
 }

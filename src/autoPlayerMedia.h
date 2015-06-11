@@ -36,12 +36,16 @@ public:
 	bool			bAlphaTransition;
 	float			volume, volumeTarget, volumeOrig, volumeStep, volumeTransitionTime;
 	bool			bVolumeTransition;
+    
+    bool            bRandomAlpha, bRandomSpeed, bRandomVolume, bRandomDuration;
+    float           randomAlphaMin, randomAlphaMax, randomSpeedMin, randomSpeedMax;
+    float           randomVolumeMin, randomVolumeMax, randomDurationMin, randomDurationMax;;
 	
 	float			startTime, endTime;
 	int				startFrame, endFrame;
 	
 	bool			bPlaying, bPlayed, bKilledAlpha, bKilledVolume, bLoad, bLoaded, bUnload;
-	bool			mediaLoop;
+	bool			bMediaLoop;
 	float			speed;
 	
 	float			chance;
@@ -58,14 +62,7 @@ public:
 	ofSoundPlayer	sound;
 	ofImage			image;
     
-    /*
-    static bool sortGreaterLayer(const autoPlayerMedia & firstLayer, const autoPlayerMedia & secondLayer)
-    {
-        return firstLayer.layer > secondLayer.layer;
-    }
-     */
-    
-    static bool sortGreaterLayer (autoPlayerMedia *lhs, autoPlayerMedia *rhs){return (lhs->layer > rhs->layer);}
+    static bool     sortGreaterLayer (autoPlayerMedia *lhs, autoPlayerMedia *rhs){return (lhs->layer > rhs->layer);}
 
 private:
 
