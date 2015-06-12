@@ -23,7 +23,7 @@ public:
 	int				windowWidth, windowHeight, origWindowWidth, origWindowHeight;
 	bool			bFullScreen, bDisplayOn, bAudioOn, bShowData;
 	
-	int				tiles_h, tiles_v;
+	int				tilesH, tilesV;
 	
 	ofFloatColor	backgroundColor;
 	

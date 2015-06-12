@@ -1,10 +1,9 @@
 #include "autoPlayerMedia.h"
 
-
 autoPlayerMedia::autoPlayerMedia(EVENT_TYPE	eventType, autoPlayerData *data): eventType(eventType), data(data){
 
 	location = FULL; bRandomTile = bRandomAll = false;
-	tile_h = tile_v = 1;
+	tileH = tileV = 1;
 	alpha = alphaTarget = alphaOrig = alphaStep = 0;	
 	volume = volumeTarget = volumeOrig = volumeStep = 0;
 	startTime = endTime = startFrame = endFrame = 0;
@@ -58,10 +57,10 @@ void autoPlayerMedia::setup(){
 	alphaStep = 1/(alphaTransitionTime*FRAME_RATE); alphaTarget = alphaOrig;  
 	volumeStep = 1/(volumeTransitionTime*FRAME_RATE); volumeTarget = volumeOrig;
 	
-	if (location == RANDOM_TILE){bRandomTile = true; location = TILE; tile_h = rand()%data->tiles_h + 1; tile_v = rand()%data->tiles_v + 1;}
+	if (location == RANDOM_TILE){bRandomTile = true; location = TILE; tileH = rand()%data->tilesH + 1; tileV = rand()%data->tilesV + 1;}
 	if (location == RANDOM_ALL) {bRandomAll = true; int tempAll = rand()%4; 
 		if (tempAll == 0) location = FULL; if (tempAll == 1) location = L_HALF; if (tempAll == 2) location = R_HALF;
-		if (tempAll == 3) {location = TILE;tile_h = rand()%data->tiles_h + 1; tile_v = rand()%data->tiles_v + 1;}
+		if (tempAll == 3) {location = TILE;tileH = rand()%data->tilesH + 1; tileV = rand()%data->tilesV + 1;}
 	}
     
     bLoaded = false;
@@ -113,16 +112,16 @@ void autoPlayerMedia::update(){
 			}
 			if (image.load(mediaPath)) {
 				bLoad = false; bLoaded = true; bPlayed = true;
-				if (bRandomTile) {tile_h = rand()%data->tiles_h + 1; tile_v = rand()%data->tiles_v + 1;}
+				if (bRandomTile) {tileH = rand()%data->tilesH + 1; tileV = rand()%data->tilesV + 1;}
 				if (bRandomAll){  int tempAll = rand()%4; 
 					if (tempAll == 0) location = FULL; if (tempAll == 1) location = L_HALF; if (tempAll == 2) location = R_HALF;
-					if (tempAll == 3) {location = TILE;tile_h = rand()%data->tiles_h + 1; tile_v = rand()%data->tiles_v + 1;}
+					if (tempAll == 3) {location = TILE;tileH = rand()%data->tilesH + 1; tileV = rand()%data->tilesV + 1;}
 				}
-                data->message.clear(); data->message = mediaPath + " -- image loaded";
+                data->message.clear(); data->message = "image loaded -> " + mediaPath;
                 
                 if (bRandomAlpha) alphaOrig = ofRandom(randomAlphaMin, randomAlphaMax);
 			}
-            else {data->message.clear(); data->message = mediaPath + " -- IMAGE NOT LOADED!";}  //cout << mediaPath.c_str() << " -- image not loaded" << endl;}
+            else {data->message.clear(); data->message =  "IMAGE NOT LOADED! -> " + mediaPath;}
 		}
         
 		if ((mediaType == AP_VIDEO)||(mediaType == AP_RANDOM_VIDEO)||(mediaType == AP_VIDEO_SEQUENCE)){
@@ -139,14 +138,14 @@ void autoPlayerMedia::update(){
 					video.play();
                     if (bMediaLoop) video.setLoopState(OF_LOOP_NORMAL); else video.setLoopState(OF_LOOP_NONE);
 					bLoad = false; bLoaded = true; bPlayed = true;
-					if (bRandomTile) {tile_h = rand()%data->tiles_h + 1; tile_v = rand()%data->tiles_v + 1;}
+					if (bRandomTile) {tileH = rand()%data->tilesH + 1; tileV = rand()%data->tilesV + 1;}
 					if (bRandomAll){  int tempAll = rand()%4; 
 						if (tempAll == 0) location = FULL; if (tempAll == 1) location = L_HALF; if (tempAll == 2) location = R_HALF;
-						if (tempAll == 3) {location = TILE;tile_h = rand()%data->tiles_h + 1; tile_v = rand()%data->tiles_v + 1;}
+						if (tempAll == 3) {location = TILE;tileH = rand()%data->tilesH + 1; tileV = rand()%data->tilesV + 1;}
 					}
-                    data->message.clear(); data->message = mediaPath + " -- video loaded";
+                    data->message.clear(); data->message = "video loaded -> " + mediaPath;
 				}
-				else {data->message.clear(); data->message = mediaPath + " -- VIDEO NOT LOADED!";}
+				else {data->message.clear(); data->message = "VIDEO NOT LOADED! -> " + mediaPath;}
 			} else {
 				data->message.clear(); data->message = "TOO MANY VIDEOS PLAYING!";
 				bLoad = false; bPlaying = false; playTimer = 0;
@@ -169,9 +168,9 @@ void autoPlayerMedia::update(){
 					bLoad = false; bLoaded = true; bPlayed = true;
 					sound.setMultiPlay(true); sound.setLoop(bMediaLoop);	
 					if (bVolumeTransition) sound.setVolume(volume); else sound.setVolume((float)volumeOrig*data->globalVolume);
-                    data->message.clear(); data->message = mediaPath + " -- sound loaded";
+                    data->message.clear(); data->message = "sound loaded -> " + mediaPath;
 				}
-				else {data->message.clear(); data->message = mediaPath + " -- SOUND NOT LOADED!";}
+				else {data->message.clear(); data->message = "SOUND NOT LOADED! -> " + mediaPath;}
 			} else {
 				data->message.clear(); data->message = "TOO MANY SOUNDS PLAYING!";
 				bLoad = false; bPlaying = false; playTimer = 0;
@@ -183,15 +182,15 @@ void autoPlayerMedia::update(){
 		
 		if ((mediaType == AP_IMAGE)||(mediaType == AP_RANDOM_IMAGE)||(mediaType == AP_IMAGE_SEQUENCE)){
             image.clear(); bUnload = false; bLoaded = false;
-            data->message.clear(); data->message = mediaPath + " -- image unloaded";
+            data->message.clear(); data->message = "image unloaded -> " + mediaPath;
         }
 		if ((mediaType == AP_VIDEO)||(mediaType == AP_RANDOM_VIDEO)||(mediaType == AP_VIDEO_SEQUENCE)){
             video.stop(); video.closeMovie();bUnload = false; bLoaded = false;
-            data->message.clear(); data->message = mediaPath + " -- video unloaded";
+            data->message.clear(); data->message = "video unloaded -> " + mediaPath;
         }
 		if ((mediaType == AP_SOUND)||(mediaType == AP_RANDOM_SOUND)||(mediaType == AP_SOUND_SEQUENCE)){
             sound.unload(); bUnload = false; bLoaded = false;
-            data->message.clear(); data->message = mediaPath + " -- sound unloaded";
+            data->message.clear(); data->message = "sound unloaded -> " + mediaPath;
         }
 	}
 	
@@ -214,8 +213,8 @@ void autoPlayerMedia::draw(){
 			if(location == L_HALF) image.draw(0,0,data->windowWidth/2,data->windowHeight);
 			if(location == R_HALF) image.draw(data->windowWidth/2,0,data->windowWidth/2,data->windowHeight);
 			
-			if ((location == TILE) && ((tile_h >=1) && (tile_h <= data->tiles_h)) && ((tile_v >=1) && (tile_v <= data->tiles_v))){
-				image.draw((float)(tile_h-1)*(data->windowWidth/data->tiles_h),(float)(tile_v-1)*(data->windowHeight/data->tiles_v),data->windowWidth/data->tiles_h,data->windowHeight/data->tiles_v);
+			if ((location == TILE) && ((tileH >=1) && (tileH <= data->tilesH)) && ((tileV >=1) && (tileV <= data->tilesV))){
+				image.draw((float)(tileH-1)*(data->windowWidth/data->tilesH),(float)(tileV-1)*(data->windowHeight/data->tilesV),data->windowWidth/data->tilesH,data->windowHeight/data->tilesV);
 			}
 		}
 	}
@@ -226,8 +225,8 @@ void autoPlayerMedia::draw(){
 			if(location == FULL) video.draw(0,0,data->windowWidth,data->windowHeight);
 			if(location == L_HALF) video.draw(0,0,data->windowWidth/2,data->windowHeight);
 			if(location == R_HALF) video.draw(data->windowWidth/2,0,data->windowWidth/2,data->windowHeight);
-			if ((location == TILE) && ((tile_h >=1) && (tile_h <= data->tiles_h)) && ((tile_v >=1) && (tile_v <= data->tiles_v))){
-				video.draw((float)(tile_h-1)*(data->windowWidth/data->tiles_h),(float)(tile_v-1)*(data->windowHeight/data->tiles_v),data->windowWidth/data->tiles_h,data->windowHeight/data->tiles_v);
+			if ((location == TILE) && ((tileH >=1) && (tileH <= data->tilesH)) && ((tileV >=1) && (tileV <= data->tilesV))){
+				video.draw((float)(tileH-1)*(data->windowWidth/data->tilesH),(float)(tileV-1)*(data->windowHeight/data->tilesV),data->windowWidth/data->tilesH,data->windowHeight/data->tilesV);
 			}
 		}
 	}

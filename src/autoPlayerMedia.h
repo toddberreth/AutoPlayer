@@ -3,7 +3,6 @@
 #include "defines.h"
 #include "ofMain.h"
 #include "autoPlayerData.h"
-#include <algorithm>
 
 enum   EVENT_TYPE		{TIMED_EVENT, RANDOM_EVENT, TRIGGERED_EVENT}; 
 enum   LOCATION_TYPE	{FULL, L_HALF, R_HALF, TILE, RANDOM_TILE, RANDOM_ALL}; 
@@ -27,7 +26,7 @@ public:
 	TYPE_OF_MEDIA	mediaType;
 	
 	bool			bRandomTile, bRandomAll;
-	int				tile_h, tile_v;
+	int				tileH, tileV;
 	
 	ofDirectory		mediaDirectory;
 	string			mediaPath;

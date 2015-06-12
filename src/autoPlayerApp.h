@@ -31,8 +31,7 @@ class autoPlayerApp : public ofBaseApp{
     
         void loadConfig();
         void loadEvent(autoPlayerMedia *event, int i);
-        void countVideos();
-        void countSounds();
+        void countPlayingMedia();
     
         autoPlayerData				*data;
     

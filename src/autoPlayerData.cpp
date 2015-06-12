@@ -17,7 +17,7 @@ autoPlayerData::autoPlayerData(){
 	
 	videosPlaying = soundsPlaying = 0; videosPlayingMax = VIDEOS_PLAYING_MAX_DEFAULT; soundsPlayingMax = SOUNDS_PLAYING_MAX_DEFAULT;
 	
-	tiles_h = tiles_v = 1;
+	tilesH = tilesH = 1;
 	
 	inputType = OFF;
     
@@ -68,13 +68,13 @@ void autoPlayerData::draw(){
     
     ofDrawBitmapString( "AutoPlayer", 30, 30);
     ofDrawBitmapString( title, 30, 50);
-    ofDrawBitmapString( "message-> " + ofToString(message), windowWidth - 450, windowHeight - 20);
-    ofDrawBitmapString( "(f)ullframe/window", 30, windowHeight - 20);
-    ofDrawBitmapString( "(a)udio/soundtrack", 30, windowHeight - 40); ofDrawBitmapString(":", 180, windowHeight - 40);
-    if (bAudioOn) ofDrawBitmapString("ON", 220, windowHeight - 40); else ofDrawBitmapString("OFF", 220, windowHeight - 40);
-    ofDrawBitmapString( "(s)how data", 30, windowHeight - 60);
-    ofDrawBitmapString( "sounds playing: " + ofToString((float)soundsPlaying, 0), 30, windowHeight - 100);
-    ofDrawBitmapString( "videos playing: " + ofToString((float)videosPlaying, 0), 30, windowHeight - 120);
+    ofDrawBitmapString( "message: " + ofToString(message), 30, windowHeight - 20);
+    ofDrawBitmapString( "(f)ullframe/window", 30, windowHeight - 40);
+    ofDrawBitmapString( "(a)udio/soundtrack", 30, windowHeight - 60); ofDrawBitmapString(":", 180, windowHeight - 60);
+    if (bAudioOn) ofDrawBitmapString("ON", 220, windowHeight - 60); else ofDrawBitmapString("OFF", 220, windowHeight - 60);
+    ofDrawBitmapString( "(s)how data", 30, windowHeight - 80);
+    ofDrawBitmapString( "sounds playing: " + ofToString((float)soundsPlaying, 0), 30, windowHeight - 140);
+    ofDrawBitmapString( "videos playing: " + ofToString((float)videosPlaying, 0), 30, windowHeight - 160);
     ofDrawBitmapString( "fps: " + ofToString(ofGetFrameRate(), 0), windowWidth - 100, 30);
     ofDrawBitmapString( "frame number: " + ofToString(frameNumber, 0), windowWidth - 300, 30);
     ofDrawBitmapString( "seconds: " + ofToString((float)frameNumber/FRAME_RATE, 2), windowWidth - 450, 30);

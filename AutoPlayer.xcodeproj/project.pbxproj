@@ -10,6 +10,7 @@
 		0546D1A38E13BD319CC9755B /* OscReceivedElements.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9BF3AA0D4FAA89D0F8A0E545 /* OscReceivedElements.cpp */; };
 		1CD33E884D9E3358252E82A1 /* ofxToggle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 907C5B5E104864A2D3A25745 /* ofxToggle.cpp */; };
 		483908258D00B98B4BE69F07 /* ofxLabel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 78D67A00EB899FAC09430597 /* ofxLabel.cpp */; };
+		4A6F11B11B2B132C002DA513 /* autoPlayerApp_loadConfig.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A6F11B01B2B132C002DA513 /* autoPlayerApp_loadConfig.cpp */; };
 		4A8541D41B25E2C500040B3E /* autoPlayerApp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A8541CD1B25E2C500040B3E /* autoPlayerApp.cpp */; };
 		4A8541D51B25E2C500040B3E /* autoPlayerData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A8541CF1B25E2C500040B3E /* autoPlayerData.cpp */; };
 		4A8541D61B25E2C500040B3E /* autoPlayerMedia.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A8541D11B25E2C500040B3E /* autoPlayerMedia.cpp */; };
@@ -84,6 +85,7 @@
 		3B361208CD4107E479F04E7B /* NetworkingUtils.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = NetworkingUtils.cpp; path = ../../../addons/ofxOsc/libs/oscpack/src/ip/posix/NetworkingUtils.cpp; sourceTree = SOURCE_ROOT; };
 		444657A12E59D0ED86981498 /* TimerListener.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = TimerListener.h; path = ../../../addons/ofxOsc/libs/oscpack/src/ip/TimerListener.h; sourceTree = SOURCE_ROOT; };
 		48974F980F51769171D0B2F5 /* IpEndpointName.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = IpEndpointName.h; path = ../../../addons/ofxOsc/libs/oscpack/src/ip/IpEndpointName.h; sourceTree = SOURCE_ROOT; };
+		4A6F11B01B2B132C002DA513 /* autoPlayerApp_loadConfig.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = autoPlayerApp_loadConfig.cpp; sourceTree = "<group>"; };
 		4A8541CD1B25E2C500040B3E /* autoPlayerApp.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = autoPlayerApp.cpp; sourceTree = "<group>"; };
 		4A8541CE1B25E2C500040B3E /* autoPlayerApp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = autoPlayerApp.h; sourceTree = "<group>"; };
 		4A8541CF1B25E2C500040B3E /* autoPlayerData.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = autoPlayerData.cpp; sourceTree = "<group>"; };
@@ -316,12 +318,13 @@
 		E4B69E1C0A3A1BDC003C02F2 /* src */ = {
 			isa = PBXGroup;
 			children = (
-				4A8541CD1B25E2C500040B3E /* autoPlayerApp.cpp */,
 				4A8541CE1B25E2C500040B3E /* autoPlayerApp.h */,
+				4A8541CD1B25E2C500040B3E /* autoPlayerApp.cpp */,
+				4A6F11B01B2B132C002DA513 /* autoPlayerApp_loadConfig.cpp */,
 				4A8541D01B25E2C500040B3E /* autoPlayerData.h */,
 				4A8541CF1B25E2C500040B3E /* autoPlayerData.cpp */,
-				4A8541D11B25E2C500040B3E /* autoPlayerMedia.cpp */,
 				4A8541D21B25E2C500040B3E /* autoPlayerMedia.h */,
+				4A8541D11B25E2C500040B3E /* autoPlayerMedia.cpp */,
 				4A8541D31B25E2C500040B3E /* defines.h */,
 				E4B69E1D0A3A1BDC003C02F2 /* main.cpp */,
 			);
@@ -458,6 +461,7 @@
 				B56FE57CC35806596D38118C /* ofxSliderGroup.cpp in Sources */,
 				1CD33E884D9E3358252E82A1 /* ofxToggle.cpp in Sources */,
 				72A929D3561B8232A182ABFC /* ofxOscBundle.cpp in Sources */,
+				4A6F11B11B2B132C002DA513 /* autoPlayerApp_loadConfig.cpp in Sources */,
 				5864AD82E20F15536D054EA3 /* ofxOscMessage.cpp in Sources */,
 				4ADB88E2FB52E76A471065DE /* ofxOscParameterSync.cpp in Sources */,
 				640279EE111671BD026CB013 /* ofxOscReceiver.cpp in Sources */,
