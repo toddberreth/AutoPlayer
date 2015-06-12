@@ -1,6 +1,15 @@
+/*
+ * Insight Engine
+ * https://github.com/toddberreth/AutoPlayer
+ *
+ * Copyright 2015, Todd Berreth
+ *
+ * Licensed under the MIT license:
+ * http://www.opensource.org/licenses/MIT
+ */
+
 #include "ofMain.h"
 #include "autoPlayerApp.h"
-
 
 //========================================================================
 int main( ){

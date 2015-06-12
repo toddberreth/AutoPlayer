@@ -1,3 +1,13 @@
+/*
+ * Insight Engine
+ * https://github.com/toddberreth/AutoPlayer
+ *
+ * Copyright 2015, Todd Berreth
+ *
+ * Licensed under the MIT license:
+ * http://www.opensource.org/licenses/MIT
+ */
+
 #include "autoPlayerMedia.h"
 
 autoPlayerMedia::autoPlayerMedia(EVENT_TYPE	eventType, autoPlayerData *data): eventType(eventType), data(data){
