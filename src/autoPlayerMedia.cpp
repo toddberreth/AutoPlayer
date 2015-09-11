@@ -1,5 +1,5 @@
 /*
- * Insight Engine
+ * AutoPlayer
  * https://github.com/toddberreth/AutoPlayer
  *
  * Copyright 2015, Todd Berreth
@@ -104,7 +104,14 @@ void autoPlayerMedia::update(){
 	
 	if (eventType == TRIGGERED_EVENT) {
 		
-		if (data->inputType == CAMERAS){}
+        if (data->inputType == MOUSE){
+            if ((data->frameNumber >= startFrame) && (data->frameNumber <= endFrame)  && (!bPlaying) && (bRepeatable || !bPlayed)
+                && ((data->xPerc >= trigger_x_min)&&(data->xPerc <= trigger_x_max)) && ((data->yPerc >= trigger_y_min)&&(data->yPerc <= trigger_y_max))){
+                if ((chance < 1)&&((data->frameNumber%FRAME_RATE == 0)&&(ofRandomuf() < chance))) {bPlaying = bLoad = true; playTimer = 0;}
+                else if (chance == 1){bPlaying = bLoad = true; playTimer = 0;}
+            }
+        }
+		if (data->inputType == CAMERA){}
 		if (bPlaying) playTimer++;
 		if ((playTimer == (((int)playDuration*FRAME_RATE)-((int)alphaTransitionTime*FRAME_RATE))) && (bAlphaTransition)) bKilledAlpha = true;
 		if ((playTimer == (((int)playDuration*FRAME_RATE)-((int)volumeTransitionTime*FRAME_RATE))) && (bVolumeTransition)) bKilledVolume = true;
@@ -242,18 +249,4 @@ void autoPlayerMedia::draw(){
 	}
 	
 	glPopMatrix();
-}
-
-//--------------------------------------------------------------
-void autoPlayerMedia::mouseMoved(int x, int y){
-	
-	float xPerc, yPerc; xPerc = (float)x/data->windowWidth; yPerc = (float)y/data->windowHeight; 
-
-	if (data->inputType == MOUSE){
-		
-		if ((data->frameNumber >= startFrame) && (data->frameNumber <= endFrame) && (data->frameNumber%FRAME_RATE == 0) && (!bPlaying) && (bRepeatable || !bPlayed)
-			&& ((xPerc >= trigger_x_min)&&(xPerc <= trigger_x_max)) && ((yPerc >= trigger_y_min)&&(yPerc <= trigger_y_max))){
-			if (ofRandomuf() < chance) {bPlaying = bPlayed = bLoad = true; playTimer = 0;}
-		}
-	}
 }

@@ -1,5 +1,5 @@
 /*
- * Insight Engine
+ * AutoPlayer
  * https://github.com/toddberreth/AutoPlayer
  *
  * Copyright 2015, Todd Berreth
@@ -25,11 +25,9 @@ public:
 	autoPlayerMedia(EVENT_TYPE eventType, autoPlayerData *data);
 	~autoPlayerMedia();
 	
-	void setup();
-	void update();
-	void draw();
-	
-	void mouseMoved(int x, int y );
+	void    setup();
+	void    update();
+	void    draw();
 	
 	EVENT_TYPE		eventType;
 	LOCATION_TYPE	location;

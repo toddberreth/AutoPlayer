@@ -1,5 +1,5 @@
 /*
- * Insight Engine
+ * AutoPlayer
  * https://github.com/toddberreth/AutoPlayer
  *
  * Copyright 2015, Todd Berreth
@@ -15,7 +15,7 @@
 #include "ofxXmlSettings.h"
 
 enum   PLAY_TYPE    {ONCE, LOOP, ENDLESS}; 
-enum   INPUT_TYPE   {OFF, CAMERAS, MOUSE};
+enum   INPUT_TYPE   {OFF, CAMERA, MOUSE};
 
 class autoPlayerData {
 	
@@ -25,6 +25,9 @@ public:
 	
 	void			update();
     void			draw();
+    
+    void            mouseMoved(int x, int y );
+    float           xPerc, yPerc;
     
     void            loadConfig();
 	

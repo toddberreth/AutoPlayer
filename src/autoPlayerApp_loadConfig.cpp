@@ -1,5 +1,5 @@
 /*
- * Insight Engine
+ * AutoPlayer
  * https://github.com/toddberreth/AutoPlayer
  *
  * Copyright 2015, Todd Berreth
@@ -46,7 +46,7 @@ void autoPlayerApp::loadConfig(){
         tempString = ofToLower(data->config.getValue("GLOBAL:SHOW_DATA", "false"));
         if (tempString == "true") data->bShowData = true; else data->bShowData = false;
         tempString = ofToLower(data->config.getValue("GLOBAL:INPUT_TYPE", "off"));
-        if (tempString == "mouse") data->inputType = MOUSE; else if (tempString == "cameras") data->inputType = CAMERAS; else if (tempString == "off") data->inputType = OFF;
+        if (tempString == "mouse") data->inputType = MOUSE; else if (tempString == "camera") data->inputType = CAMERA; else if (tempString == "off") data->inputType = OFF;
         data->randomAlphaMinTyp     = data->config.getValue("GLOBAL:RANDOM_ALPHA_TYP:MIN", RANDOM_ALPHA_MIN_TYP);
         data->randomAlphaMaxTyp     = data->config.getValue("GLOBAL:RANDOM_ALPHA_TYP:MAX", RANDOM_ALPHA_MAX_TYP);
         data->randomSpeedMinTyp     = data->config.getValue("GLOBAL:RANDOM_SPEED_TYP:MIN", RANDOM_SPEED_MIN_TYP);

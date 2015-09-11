@@ -1,5 +1,5 @@
 /*
- * Insight Engine
+ * AutoPlayer
  * https://github.com/toddberreth/AutoPlayer
  *
  * Copyright 2015, Todd Berreth
@@ -85,6 +85,9 @@ void autoPlayerData::draw(){
     ofDrawBitmapString( "(s)how data", 30, windowHeight - 80);
     ofDrawBitmapString( "sounds playing: " + ofToString((float)soundsPlaying, 0), 30, windowHeight - 140);
     ofDrawBitmapString( "videos playing: " + ofToString((float)videosPlaying, 0), 30, windowHeight - 160);
+    string thisInput; if (inputType == OFF) thisInput = "OFF"; else if (inputType == MOUSE) thisInput = "MOUSE"; else if (inputType == CAMERA) thisInput = "CAMERA";
+    ofDrawBitmapString( "input type: " + thisInput, 30, windowHeight - 180);
+    if (inputType == MOUSE)  ofDrawBitmapString( "x: " + ofToString(xPerc) + " y: " + ofToString(yPerc), 220, windowHeight - 180);
     ofDrawBitmapString( "fps: " + ofToString(ofGetFrameRate(), 0), windowWidth - 100, 30);
     ofDrawBitmapString( "frame number: " + ofToString(frameNumber, 0), windowWidth - 300, 30);
     ofDrawBitmapString( "seconds: " + ofToString((float)frameNumber/FRAME_RATE, 2), windowWidth - 450, 30);
@@ -95,3 +98,5 @@ void autoPlayerData::draw(){
     
     glPopMatrix();
 }
+
+void autoPlayerData::mouseMoved(int x, int y ){xPerc = (float)x/windowWidth; yPerc = (float)y/windowHeight;}

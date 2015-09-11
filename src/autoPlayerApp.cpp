@@ -1,5 +1,5 @@
 /*
- * Insight Engine
+ * AutoPlayer
  * https://github.com/toddberreth/AutoPlayer
  *
  * Copyright 2015, Todd Berreth
@@ -81,7 +81,7 @@ void autoPlayerApp::keyPressed(int key){
 //--------------------------------------------------------------
 void autoPlayerApp::mouseMoved(int x, int y ){
 
-    for (vector<autoPlayerMedia*>::iterator it = events.begin(); it != events.end(); it++) {(*it)->mouseMoved(x,y);}
+    data->mouseMoved(x,y);
     bMouseMoved = true;
 }
 
