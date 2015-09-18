@@ -23,8 +23,18 @@ void autoPlayerApp::setup(){
 
     loadConfig();
     
-    if (data->bFullScreen){ofSetFullscreen(data->bFullScreen);}
-    else {ofSetWindowShape(data->windowWidth, data->windowHeight);ofSetWindowPosition(0, 0);}
+    if (data->bFullScreen){
+        data->windowWidth = ofGetScreenWidth(); data->windowHeight = ofGetScreenHeight();
+        ofSetWindowShape(data->windowWidth, data->windowHeight);
+        ofSetWindowPosition(0, 0);
+        ofSetFullscreen(data->bFullScreen);
+    }
+    else {
+        data->windowWidth = data->origWindowWidth; data->windowHeight = data->origWindowHeight;
+        ofSetWindowShape(data->windowWidth, data->windowHeight);
+        ofSetWindowPosition(0, 0);
+        ofSetFullscreen(data->bFullScreen);
+    }
     
     bMouseMoved = false; mouseTimer = 0;
 }
@@ -67,11 +77,12 @@ void autoPlayerApp::draw(){
 void autoPlayerApp::keyPressed(int key){
 
     if (key == 'f'){
-        data->bFullScreen = !data->bFullScreen; ofSetFullscreen(data->bFullScreen);
-        if (!data->bFullScreen){
-            ofSetWindowShape(data->origWindowWidth, data->origWindowHeight);
-            ofSetWindowPosition(0, 0);
-        }
+        data->bFullScreen = !data->bFullScreen;
+        ofSetFullscreen(data->bFullScreen);
+        if (data->bFullScreen){data->windowWidth = ofGetScreenWidth(); data->windowHeight = ofGetScreenHeight();}
+        else { data->windowWidth = data->origWindowWidth; data->windowHeight = data->origWindowHeight;}
+        ofSetWindowShape(data->windowWidth, data->windowHeight);
+        ofSetWindowPosition(0, 0);
     }
     
     if (key == 'a') {data->bAudioOn = !data->bAudioOn; data->globalVolume = 0;}

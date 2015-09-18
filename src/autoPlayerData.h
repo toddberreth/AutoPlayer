@@ -13,6 +13,7 @@
 #include "defines.h"
 #include "ofMain.h"
 #include "ofxXmlSettings.h"
+#include "autoPlayerCams.h"
 
 enum   PLAY_TYPE    {ONCE, LOOP, ENDLESS}; 
 enum   INPUT_TYPE   {OFF, CAMERA, MOUSE};
@@ -53,6 +54,8 @@ public:
 	bool			bPlayTransition;
 	
 	INPUT_TYPE		inputType;
+    
+    CamData         *camData;
 	
 	int				frameNumber;
 	

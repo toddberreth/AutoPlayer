@@ -40,3 +40,9 @@
 #define		RANDOM_DURATION_MAX_TYP		30
 
 #define		MOUSE_HIDE					3	//hide cursor after x seconds
+
+
+//autoPlayer camera/blob tracking defines
+
+#define     CAMERA_OSC_RECEIVE_PORT     57120
+#define     CAMERA_BLOB_SMOOTH_COEF     0.2

@@ -37,6 +37,9 @@ autoPlayerData::autoPlayerData(){
     randomSpeedMinTyp = RANDOM_SPEED_MIN_TYP;   randomSpeedMaxTyp = RANDOM_SPEED_MAX_TYP;
     randomVolumeMinTyp = RANDOM_VOLUME_MIN_TYP; randomVolumeMaxTyp = RANDOM_VOLUME_MAX_TYP;
     randomDurationMinTyp = RANDOM_DURATION_MIN_TYP; randomVolumeMaxTyp = RANDOM_DURATION_MAX_TYP;
+    
+    camData = new CamData();
+    camData->setup();
 }
 
 autoPlayerData::~autoPlayerData(){}
@@ -47,7 +50,8 @@ void autoPlayerData::update(){
 	if ((frameNumber == playDurationFrames) && (playType == LOOP)) frameNumber = 0;
 	if ((frameNumber == playDurationFrames) && (playType == ONCE)) exit(0);
 	
-	windowWidth = ofGetWindowWidth(); windowHeight = ofGetWindowHeight();
+    if (!bFullScreen){windowWidth = ofGetWindowWidth(); windowHeight = ofGetWindowHeight();}
+    else {windowWidth = ofGetScreenWidth(); windowHeight = ofGetScreenHeight();}
 	
 	if (bDisplayOn) globalAlpha+=globalAlphaStep; else globalAlpha-=globalAlphaStep;
 	globalAlpha = ofClamp(globalAlpha, 0, 1);
@@ -62,6 +66,8 @@ void autoPlayerData::update(){
 		if ((bAudioOn) && (frameNumber == (playDurationFrames - (GLOBAL_TRANSITION*FRAME_RATE)))&& (playType != ENDLESS)) bAudioOn = false;
 		if ((!bAudioOn) && (frameNumber == 0)) bAudioOn = true;
 	}
+    
+    camData->update();
 }
 
 void autoPlayerData::draw(){
@@ -92,6 +98,8 @@ void autoPlayerData::draw(){
     ofDrawBitmapString( "frame number: " + ofToString(frameNumber, 0), windowWidth - 300, 30);
     ofDrawBitmapString( "seconds: " + ofToString((float)frameNumber/FRAME_RATE, 2), windowWidth - 450, 30);
     
+    
+    ofDrawBitmapString( ofToString(windowWidth) + ", " + ofToString(windowHeight) , windowWidth - 450, 100);
     ofPopMatrix();
     
     ofSetColor(255);

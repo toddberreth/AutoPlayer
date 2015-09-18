@@ -62,6 +62,8 @@ public:
 	int				sequenceIndex;
 	
 	float			trigger_x_min, trigger_x_max, trigger_y_min, trigger_y_max;
+    bool            isBlobInTriggerZone();
+    bool            isMouseInTriggerZone();
 	
 	int				layer;
 	

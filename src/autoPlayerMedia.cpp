@@ -105,13 +105,17 @@ void autoPlayerMedia::update(){
 	if (eventType == TRIGGERED_EVENT) {
 		
         if (data->inputType == MOUSE){
-            if ((data->frameNumber >= startFrame) && (data->frameNumber <= endFrame)  && (!bPlaying) && (bRepeatable || !bPlayed)
-                && ((data->xPerc >= trigger_x_min)&&(data->xPerc <= trigger_x_max)) && ((data->yPerc >= trigger_y_min)&&(data->yPerc <= trigger_y_max))){
+            if ((data->frameNumber >= startFrame) && (data->frameNumber <= endFrame)  && (!bPlaying) && (bRepeatable || !bPlayed) && (isMouseInTriggerZone())){
                 if ((chance < 1)&&((data->frameNumber%FRAME_RATE == 0)&&(ofRandomuf() < chance))) {bPlaying = bLoad = true; playTimer = 0;}
                 else if (chance == 1){bPlaying = bLoad = true; playTimer = 0;}
             }
         }
-		if (data->inputType == CAMERA){}
+		if (data->inputType == CAMERA){
+            if ((data->frameNumber >= startFrame) && (data->frameNumber <= endFrame)  && (!bPlaying) && (bRepeatable || !bPlayed)&& (isBlobInTriggerZone())){
+                if ((chance < 1)&&((data->frameNumber%FRAME_RATE == 0)&&(ofRandomuf() < chance))) {bPlaying = bLoad = true; playTimer = 0;}
+                else if (chance == 1){bPlaying = bLoad = true; playTimer = 0;}
+            }
+        }
 		if (bPlaying) playTimer++;
 		if ((playTimer == (((int)playDuration*FRAME_RATE)-((int)alphaTransitionTime*FRAME_RATE))) && (bAlphaTransition)) bKilledAlpha = true;
 		if ((playTimer == (((int)playDuration*FRAME_RATE)-((int)volumeTransitionTime*FRAME_RATE))) && (bVolumeTransition)) bKilledVolume = true;
@@ -249,4 +253,25 @@ void autoPlayerMedia::draw(){
 	}
 	
 	glPopMatrix();
+}
+
+bool autoPlayerMedia::isBlobInTriggerZone(){
+    
+    bool inTriggerZone = false;
+    
+    if (data->camData->myBlobs.size() > 0){
+        for(std::vector<CamBlob*>::iterator it=data->camData->myBlobs.begin(); it != data->camData->myBlobs.end(); it++){
+            if (((*it)->centroidX >= trigger_x_min)&&((*it)->centroidX <= trigger_x_max)
+                && ((*it)->centroidY >= trigger_y_min)&&((*it)->centroidY <= trigger_y_max)) inTriggerZone = true;
+        }
+    }
+    
+    return inTriggerZone ;
+}
+
+bool autoPlayerMedia::isMouseInTriggerZone(){
+    
+    bool inTriggerZone = false;
+    if ((data->xPerc >= trigger_x_min)&&(data->xPerc <= trigger_x_max) && (data->yPerc >= trigger_y_min)&&(data->yPerc <= trigger_y_max)) inTriggerZone = true;
+    return inTriggerZone ;
 }

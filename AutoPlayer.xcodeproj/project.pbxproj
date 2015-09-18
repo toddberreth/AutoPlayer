@@ -14,6 +14,7 @@
 		4A8541D41B25E2C500040B3E /* autoPlayerApp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A8541CD1B25E2C500040B3E /* autoPlayerApp.cpp */; };
 		4A8541D51B25E2C500040B3E /* autoPlayerData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A8541CF1B25E2C500040B3E /* autoPlayerData.cpp */; };
 		4A8541D61B25E2C500040B3E /* autoPlayerMedia.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A8541D11B25E2C500040B3E /* autoPlayerMedia.cpp */; };
+		4ACF567E1BA6FE48000A820C /* autoPlayerCams.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4ACF567C1BA6FE48000A820C /* autoPlayerCams.cpp */; };
 		4ADB88E2FB52E76A471065DE /* ofxOscParameterSync.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0AED834CE4DEC5260AF302A2 /* ofxOscParameterSync.cpp */; };
 		510CAFE035E576A4E1502D52 /* UdpSocket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E6DEF695B88BA5FAACEAA937 /* UdpSocket.cpp */; };
 		5864AD82E20F15536D054EA3 /* ofxOscMessage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DF49D76C45D5DB505A234880 /* ofxOscMessage.cpp */; };
@@ -93,6 +94,8 @@
 		4A8541D11B25E2C500040B3E /* autoPlayerMedia.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = autoPlayerMedia.cpp; sourceTree = "<group>"; };
 		4A8541D21B25E2C500040B3E /* autoPlayerMedia.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = autoPlayerMedia.h; sourceTree = "<group>"; };
 		4A8541D31B25E2C500040B3E /* defines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = defines.h; sourceTree = "<group>"; };
+		4ACF567C1BA6FE48000A820C /* autoPlayerCams.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = autoPlayerCams.cpp; sourceTree = "<group>"; };
+		4ACF567D1BA6FE48000A820C /* autoPlayerCams.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = autoPlayerCams.h; sourceTree = "<group>"; };
 		4E95FB446A9C9C6F0DE12D75 /* OscPrintReceivedElements.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = OscPrintReceivedElements.h; path = ../../../addons/ofxOsc/libs/oscpack/src/osc/OscPrintReceivedElements.h; sourceTree = SOURCE_ROOT; };
 		50DF87D612C5AAE17AAFA6C0 /* ofxXmlSettings.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = ofxXmlSettings.cpp; path = ../../../addons/ofxXmlSettings/src/ofxXmlSettings.cpp; sourceTree = SOURCE_ROOT; };
 		52AFA1F08C420992CAAAE648 /* ofxSlider.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxSlider.h; path = ../../../addons/ofxGui/src/ofxSlider.h; sourceTree = SOURCE_ROOT; };
@@ -318,6 +321,8 @@
 		E4B69E1C0A3A1BDC003C02F2 /* src */ = {
 			isa = PBXGroup;
 			children = (
+				4ACF567C1BA6FE48000A820C /* autoPlayerCams.cpp */,
+				4ACF567D1BA6FE48000A820C /* autoPlayerCams.h */,
 				4A8541CE1B25E2C500040B3E /* autoPlayerApp.h */,
 				4A8541CD1B25E2C500040B3E /* autoPlayerApp.cpp */,
 				4A6F11B01B2B132C002DA513 /* autoPlayerApp_loadConfig.cpp */,
@@ -457,6 +462,7 @@
 				483908258D00B98B4BE69F07 /* ofxLabel.cpp in Sources */,
 				4A8541D41B25E2C500040B3E /* autoPlayerApp.cpp in Sources */,
 				F285EB3169F1566CA3D93C20 /* ofxPanel.cpp in Sources */,
+				4ACF567E1BA6FE48000A820C /* autoPlayerCams.cpp in Sources */,
 				837220E80EB56CD44AD27F2A /* ofxSlider.cpp in Sources */,
 				B56FE57CC35806596D38118C /* ofxSliderGroup.cpp in Sources */,
 				1CD33E884D9E3358252E82A1 /* ofxToggle.cpp in Sources */,
@@ -612,8 +618,9 @@
 					../../../addons/ofxXmlSettings/libs,
 					../../../addons/ofxXmlSettings/src,
 				);
-				ICON = "$(ICON_NAME_DEBUG)";
-				ICON_FILE = "$(ICON_FILE_PATH)$(ICON)";
+				ICON = icon.icns;
+				ICON_FILE = icon.icns;
+				ICON_NAME_DEBUG = icon.icns;
 				INFOPLIST_FILE = "openFrameworks-Info.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
@@ -650,8 +657,9 @@
 					../../../addons/ofxXmlSettings/libs,
 					../../../addons/ofxXmlSettings/src,
 				);
-				ICON = "$(ICON_NAME_RELEASE)";
-				ICON_FILE = "$(ICON_FILE_PATH)$(ICON)";
+				ICON = icon.icns;
+				ICON_FILE = icon.icns;
+				ICON_NAME_DEBUG = icon.icns;
 				INFOPLIST_FILE = "openFrameworks-Info.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
